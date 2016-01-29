@@ -68,8 +68,18 @@ function* ensureIndex(table, indexName) {
   yield conn.table(table).indexWait(indexName).run();
 }
 
+/**
+ * Drops the database
+ */
+function* createTable(table) {
+  let conn = rethink.create(name);
+  yield conn.db(name).tableCreate(table).run();
+}
+
 module.exports = {
   drop,
   reset,
-  ensureIndex
+  ensureIndex,
+  createTable,
+  name
 };

@@ -1,6 +1,6 @@
 'use strict';
 
-function* getBadgeTypes() {
+function* listDbs() {
 
   let dbs = yield this.r.dbList();
 
@@ -9,4 +9,4 @@ function* getBadgeTypes() {
 }
 
 
-module.exports = getBadgeTypes;
+module.exports = listDbs;

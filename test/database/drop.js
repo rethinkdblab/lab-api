@@ -6,7 +6,7 @@ const
   harness = require('../helpers/harness'),
   db = require('../helpers/db');
 
-describe('POST databases', function () {
+describe('DROP databases', function () {
 
   harness.suite();
 
@@ -16,7 +16,20 @@ describe('POST databases', function () {
     yield co(db.drop(dbName));
   });
 
-  it('should create database', function* () {
+  it('should return 400 db no exists', function* () {
+
+    let res = yield this.harness.api()
+      .del(`/v1/wrong_db`)
+      .send()
+      .end();
+
+    expect(res.status).to.equal(400);
+    expect(res.body).to.an('object');
+
+    expect(res.body.message).to.equal( `Database 'wrong_db' does not exist`);
+  });
+
+  it('should drop database', function* () {
 
     let res = yield this.harness.api()
       .post(`/v1/${dbName}`)
@@ -29,28 +42,15 @@ describe('POST databases', function () {
     expect(res.body.dbs_created).to.equal(1);
     expect(res.body.config_changes[0].new_val.name).to.equal(dbName);
 
-    yield db.drop(dbName);
-  });
-
-  it('should not create duplicated database', function* () {
-
-    let res = yield this.harness.api()
-      .post(`/v1/${dbName}`)
-      .send()
-      .end();
-
-    expect(res.status).to.equal(200);
-
     let res2 = yield this.harness.api()
-      .post(`/v1/${dbName}`)
+      .del(`/v1/${dbName}`)
       .send()
       .end();
 
-    expect(res2.status).to.equal(400);
+    expect(res2.status).to.equal(200);
     expect(res2.body).to.an('object');
 
-    expect(res2.body.message).to.equal(`Database '${dbName}' already exists`);
-
-    yield db.drop(dbName);
+    expect(res2.body.dbs_dropped).to.equal(1);
+    expect(res2.body.config_changes[0].old_val.name).to.equal(dbName);
   });
 });

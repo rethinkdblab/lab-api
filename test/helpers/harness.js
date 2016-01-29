@@ -30,6 +30,9 @@ function suite() {
       // Create super test agent
       request: supertest.agent(server),
 
+      // Sets defaul db name
+      db,
+
       // API helper function
       api: function api() {
         return new ApiRequest(context);

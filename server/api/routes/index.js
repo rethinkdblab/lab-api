@@ -13,8 +13,12 @@ function routes(app) {
   });
 
   // db
-  appRouter.get('/v1/dbs', require('./database/list'));
-  appRouter.post('/v1/dbs/:dbName', require('./database/post'));
+  appRouter.get('/v1', require('./database/list'));
+  appRouter.post('/v1/:dbName', require('./database/post'));
+  appRouter.del('/v1/:dbName', require('./database/drop'));
+
+  // table
+  appRouter.get('/v1/:dbName', require('./table/list'));
 
   app
     .use(appRouter.routes())
