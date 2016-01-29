@@ -1,0 +1,28 @@
+{
+  "extends": "airbnb",
+  "env": {
+      "es6": true,
+      "node": true,
+      "mocha": true
+  },
+  "ecmaFeatures": {
+    "modules": false,
+    "classes": true,
+    "generators": true,
+    "objectLiteralShorthandMethods": true
+  },
+  "rules": {
+    "comma-dangle": [ 2, "never" ],
+    "no-use-before-define": [ 2, "nofunc" ],
+    "padded-blocks": 0,
+    "brace-style": [ 2, "stroustrup", { "allowSingleLine": false } ],
+    "no-multi-spaces": 0,
+    "strict": [2, "global"],
+    "one-var": 0,
+    "prefer-const": 0,
+    "no-console": 0,
+    "func-names": 0,
+    "max-len": 0,
+    "no-param-reassign": 1
+  }
+}
